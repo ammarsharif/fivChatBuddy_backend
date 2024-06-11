@@ -61,6 +61,10 @@ app.delete('/api/profile', async (req, res) => {
   }
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).send('Server is running successfully');
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
