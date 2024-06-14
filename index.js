@@ -31,7 +31,15 @@ app.post('/api/profile', async (req, res) => {
 
     const existingProfile = await Profile.findOne({ emailAddress });
     if (existingProfile) {
-      return res.status(400).send('Email address already exists');
+      if (existingProfile.tokenStatus) {
+        return res
+          .status(200)
+          .json({ message: 'Profile already exists', authenticated: true });
+      } else {
+        return res
+          .status(200)
+          .json({ message: 'Profile already exists', authenticated: false });
+      }
     }
     const newProfile = new Profile({ name, emailAddress, photoUrl });
     await newProfile.save();
@@ -61,15 +69,10 @@ app.delete('/api/profile', async (req, res) => {
   }
 });
 
-app.get('/health', (req, res) => {
+app.get('api/health', (req, res) => {
   res.status(200).send('Server is running successfully');
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-
-
-
-
