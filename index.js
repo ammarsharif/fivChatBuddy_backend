@@ -18,13 +18,13 @@ const profileSchema = new mongoose.Schema({
   name: String,
   emailAddress: String,
   photoUrl: String,
+  tokenStatus: Boolean,
 });
 
 const Profile = mongoose.model('Profile', profileSchema);
 
 app.post('/api/profile', async (req, res) => {
   const { token, tokenStatus } = req.body;
-
   if (!token) {
     return res.status(400).json({ error: 'Token is required' });
   }
@@ -45,7 +45,7 @@ app.post('/api/profile', async (req, res) => {
 
     const profileInfo = await googleResponse.json();
     const { names, emailAddresses, photos } = profileInfo;
-    console.log(profileInfo);
+
     const name = names?.[0]?.displayName || '';
     const emailAddress = emailAddresses?.[0]?.value || '';
     const photoUrl = photos?.[0]?.url || '';
@@ -97,9 +97,7 @@ app.delete('/api/profile', async (req, res) => {
       { tokenStatus: false },
       { new: true }
     );
-    console.log(updatedProfile, 'UPDATED PROFILE');
     if (!updatedProfile) {
-      console.log('No Profile found');
       return res.status(404).send('No profile found with that email address');
     }
 
