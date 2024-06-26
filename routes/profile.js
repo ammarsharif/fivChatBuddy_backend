@@ -67,13 +67,14 @@ router.post('/', async (req, res) => {
           userId: existingProfile._id,
           plan: 'free',
           planId: subscriptionPlan._id,
+          apiCalls: 0,
           startDate: new Date(),
+          endDate: new Date().setMonth(new Date().getMonth() + 1),
         });
         await subscription.save();
       }
-
       return res.status(200).json({
-        message: 'Profile updated',
+        message: 'Profile status updated',
         authenticated: true,
         profileImage: photoUrl,
         userApiUsage: existingProfile.userApiUsage,
@@ -97,6 +98,7 @@ router.post('/', async (req, res) => {
         planId: subscriptionPlan._id,
         apiCalls: 0,
         startDate: new Date(),
+        endDate: new Date().setMonth(new Date().getMonth() + 1),
       });
       await newSubscription.save();
 
