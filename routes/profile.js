@@ -120,7 +120,7 @@ router.post('/', async (req, res) => {
 
 router.post('/updateApiCount', async (req, res) => {
   const { userId, increment } = req.body;
-  if (!userId || !increment === undefined) {
+  if (!userId || increment === undefined) {
     return res.status(400).json({ error: 'increment is required' });
   }
   try {
@@ -129,7 +129,7 @@ router.post('/updateApiCount', async (req, res) => {
     if (!userProfile) {
       return res.status(400).json({ error: 'userProfile not found' });
     }
-    userProfile.userApiUsageCount += increment;
+    userProfile.userApiUsage += increment;
     await userProfile.save();
 
     res.status(200).json({
