@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
+const cronJobs = require('./cronJobs');
 const connectDB = require('./config/db');
 
 const profileRoutes = require('./routes/profile');
@@ -21,3 +22,4 @@ app.use('/api/subscription', subscriptionRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+cronJobs;
