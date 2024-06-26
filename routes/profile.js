@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
 
     let existingProfile = await Profile.findOne({ emailAddress });
 
-    const subscriptionPlan = await SubscriptionPlan.findOne({
+    let subscriptionPlan = await SubscriptionPlan.findOne({
       planTitle: 'free',
     });
     if (existingProfile) {
@@ -66,14 +66,13 @@ router.post('/', async (req, res) => {
         userId: existingProfile._id,
       });
       if (!subscription) {
-        const newSubscription = new Subscription({
+        subscription = new Subscription({
           userId: existingProfile._id,
           plan: 'free',
           planId: subscriptionPlan._id,
           startDate: new Date(),
         });
-        await newSubscription.save();
-        subscription = newSubscription;
+        await subscription.save();
       }
 
       return res.status(200).json({
@@ -84,6 +83,8 @@ router.post('/', async (req, res) => {
         profileImage: photoUrl,
         apiCalls: existingProfile.apiCalls,
         subscription,
+        id: existingProfile._id,
+        emailAddress,
       });
     } else {
       const newProfile = new Profile({
@@ -99,6 +100,7 @@ router.post('/', async (req, res) => {
         userId: newProfile._id,
         plan: 'free',
         planId: subscriptionPlan._id,
+        apiCalls: 0,
         startDate: new Date(),
       });
       await newSubscription.save();
@@ -109,6 +111,8 @@ router.post('/', async (req, res) => {
         profileImage: photoUrl,
         apiCalls: newProfile.apiCalls,
         subscription: newSubscription,
+        id: newProfile._id,
+        emailAddress,
       });
     }
   } catch (error) {
