@@ -1,46 +1,8 @@
 const express = require('express');
 const SubscriptionPlan = require('../models/SubscriptionPlan');
+const { plans } = require('../server');
 
 const router = express.Router();
-
-const plans = {
-  free: {
-    title: 'Free',
-    features: [
-      'Suggestions',
-      'Tone Adjustment',
-      'Communication Context',
-      'Limited Email Replies',
-      'Limited Suggestions',
-    ],
-    price: 0,
-    apiCounts: 100,
-  },
-  monthly: {
-    title: 'Monthly',
-    features: [
-      'Unlimited Emails',
-      'Personalized, human-like responses',
-      'Unlimited Suggestions',
-      'Tone Adjustment',
-      'Communication Context',
-    ],
-    price: 24.99,
-    apiCounts: 1000,
-  },
-  yearly: {
-    title: 'Yearly',
-    features: [
-      'Unlimited Emails',
-      'Personalized, human-like responses',
-      'Unlimited Suggestions',
-      'Tone Adjustment',
-      'Communication Context',
-    ],
-    price: 129,
-    apiCounts: 12000,
-  },
-};
 
 router.post('/create-plans', async (req, res) => {
   try {
