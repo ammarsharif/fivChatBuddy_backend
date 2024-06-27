@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const SubscriptionPlan = require('./models/SubscriptionPlan');
 const mongoURI = 'mongodb+srv://myfiverr:fiv1234@cluster0.3ylrwdt.mongodb.net/';
 
-export const plans = {
+const plans = {
   free: {
     title: 'Free',
     features: [
