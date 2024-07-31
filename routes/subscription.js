@@ -78,12 +78,11 @@ router.post('/updateApiCount', async (req, res) => {
     if (!subscription) {
       return res.status(400).json({ error: 'Subscription not found' });
     }
-
     if (
       subscription.apiCalls >= subscriptionPlan.planApiCounts &&
       subscription.plan === 'free'
     ) {
-      return res.status(403).json({ error: 'API LIMIT REACHED', ok: false });
+      return res.status(403).json({ error: 'API LIMIT REACHED',subscription, ok: false });
     }
     subscription.apiCalls += increment;
     await subscription.save();
